@@ -3,6 +3,206 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.25](https://github.com/Tencent/wujie/compare/v1.0.24...v1.0.25) (2025-02-19)
+
+### Bug Fixes
+
+* 修复在 sandbox.document.getElementById 无法查询到时, 使用 iframe 调用回到 proxy 导致死循环 ([#946](https://github.com/Tencent/wujie/issues/946)) ([0dfad42](https://github.com/Tencent/wujie/commit/0dfad427c5a039a59374b2c7fa6fa2fbadf35140))
+* 绑定沙箱的destroy函数的this指针([#958](https://github.com/Tencent/wujie/issues/958)) ([1b516de](https://github.com/Tencent/wujie/commit/1b516deb54ad55f66951945585ee41a3efb945de)), closes [#954](https://github.com/Tencent/wujie/issues/954)
+
+## [1.0.23](https://github.com/Tencent/wujie/compare/v1.0.22...v1.0.23) (2024-11-24)
+
+### Bug Fixes
+
+* appWindowOnEvent 增加 onerror and onunhandledrejection 事件 ([#865](https://github.com/Tencent/wujie/issues/865)) ([76ee1b2](https://github.com/Tencent/wujie/commit/76ee1b2fdd95c1f80b67cdc8468a677d1726c766))
+* 修复 子应用 html 上的属性会被丢失的问题([#908](https://github.com/Tencent/wujie/issues/908)) ([#909](https://github.com/Tencent/wujie/issues/909)) ([e2cf327](https://github.com/Tencent/wujie/commit/e2cf327709cfe991b47245572abc80681d864e17))
+* 修复css中图片url解析错误 ([#681](https://github.com/Tencent/wujie/issues/681)) ([94c3b6e](https://github.com/Tencent/wujie/commit/94c3b6eaf5ed3c3fd28762240d724f4b83a3025e))
+* 修复在降级情况下无法加载vite使用vite-legacy-plugin打包出的js文件 ([#861](https://github.com/Tencent/wujie/issues/861)) ([a22b545](https://github.com/Tencent/wujie/commit/a22b545588fe74e2981a39a5b9bdc1a8083ad53c))
+* 修复多个子应用启动，拿到的全局对象缓存都是第一个子应用全局对象的bug ([#792](https://github.com/Tencent/wujie/issues/792)) ([41a5309](https://github.com/Tencent/wujie/commit/41a5309de9e39539d6684a424302bff2b7965db2))
+* 修复子应用无法使用 WebComponent 组件库，提示 adoptedstylesheets 问题 ([#771](https://github.com/Tencent/wujie/issues/771)) ([fa5fb03](https://github.com/Tencent/wujie/commit/fa5fb030f88acfe0d6d59692d66bbb0763997379))
+* 修复通过appendChild添加的外部脚本中使用document.body.removeChild移除脚本报错阻塞代码执行的问题 ([#839](https://github.com/Tencent/wujie/issues/839)) ([2e2a23c](https://github.com/Tencent/wujie/commit/2e2a23c939781d7ed8fab1d06b3208b7d082c0d4))
+* 在afterUnmount的回调函数中，使用 destroyApp 方法时，bus 属性为null ，调用$clear()会报错 ([#742](https://github.com/Tencent/wujie/issues/742)) ([d6ea8d6](https://github.com/Tencent/wujie/commit/d6ea8d69d611df07fef9af1d88242786257813c3))
+
+### Features
+
+* unmount hook support promise ([#645](https://github.com/Tencent/wujie/issues/645)) ([18be78b](https://github.com/Tencent/wujie/commit/18be78b336c2ab90fb0e85096c4281be3a1d49cb))
+* 优化处理document专属事件中可能造成内存泄露部分 ([#644](https://github.com/Tencent/wujie/issues/644)) ([78e6983](https://github.com/Tencent/wujie/commit/78e698398e5b70b3c2727dd80b60a7d9ae826d4c))
+
+## [1.0.22](https://github.com/Tencent/wujie/compare/v1.0.20...v1.0.22) (2023-12-18)
+
+### Bug Fixes
+
+* 解决子应用销毁时,主应用监听事件内存未被释放 [#752](https://github.com/Tencent/wujie/issues/752) ([#753](https://github.com/Tencent/wujie/issues/753)) ([5fa87a8](https://github.com/Tencent/wujie/commit/5fa87a8b4440658c947f71126cd432c337dd8a26)), closes [#568](https://github.com/Tencent/wujie/issues/568)
+* 修复降级模式会丢失事件监听器 ([#758](https://github.com/Tencent/wujie/issues/758)) ([534e865](https://github.com/Tencent/wujie/commit/534e8653c266df0373cbe3a924a79f92f4f604b8))
+* 修复在safari下scriptElement的src下不可写的问题 ([84b2378](https://github.com/Tencent/wujie/commit/84b2378d952814b3112ba2b16b91db940807e2d5))
+* 修复重复Object.defineProperties导致的报错 ([94bbfa6](https://github.com/Tencent/wujie/commit/94bbfa6eb879b156eeef68cd4aa68ac32d772fe3))
+
+## [1.0.21](https://github.com/Tencent/wujie/compare/v1.0.20...v1.0.21) (2023-12-18)
+
+### Bug Fixes
+
+* 解决子应用销毁时,主应用监听事件内存未被释放 [#752](https://github.com/Tencent/wujie/issues/752) ([#753](https://github.com/Tencent/wujie/issues/753)) ([5fa87a8](https://github.com/Tencent/wujie/commit/5fa87a8b4440658c947f71126cd432c337dd8a26)), closes [#568](https://github.com/Tencent/wujie/issues/568)
+* 修复降级模式会丢失事件监听器 ([#758](https://github.com/Tencent/wujie/issues/758)) ([534e865](https://github.com/Tencent/wujie/commit/534e8653c266df0373cbe3a924a79f92f4f604b8))
+* 修复在safari下scriptElement的src下不可写的问题 ([84b2378](https://github.com/Tencent/wujie/commit/84b2378d952814b3112ba2b16b91db940807e2d5))
+* 修复重复Object.defineProperties导致的报错 ([94bbfa6](https://github.com/Tencent/wujie/commit/94bbfa6eb879b156eeef68cd4aa68ac32d772fe3))
+
+## [1.0.20](https://github.com/Tencent/wujie/compare/v1.0.18...v1.0.20) (2023-11-08)
+
+### Bug Fixes
+
+* 兼容部分浏览器script src不可配置 ([3eab5cf](https://github.com/Tencent/wujie/commit/3eab5cf9f5db01bbc3ac8b06699853edadb422db)), closes [#648](https://github.com/Tencent/wujie/issues/648)
+* appendChildOrInsertBefore effect ignore css error ([#643](https://github.com/Tencent/wujie/issues/643)) ([17179fb](https://github.com/Tencent/wujie/commit/17179fbca76b23ee9b05eeec88818b65cc1e7daa))
+* **proxy:** protect the program when getElementById throws an exception error ([#693](https://github.com/Tencent/wujie/issues/693)) ([37dc95b](https://github.com/Tencent/wujie/commit/37dc95bd45b68b1dee56f60b5cb2b7bebeb99de2))
+
+**Note:** Version bump only for package wujie
+
+## [1.0.18](https://github.com/Tencent/wujie/compare/v1.0.17...v1.0.18) (2023-07-11)
+
+### Bug Fixes
+
+* 兼容子应用定义不可修改的全局函数 ([#574](https://github.com/Tencent/wujie/issues/574)) ([79c4ee0](https://github.com/Tencent/wujie/commit/79c4ee0e44bba5c1c7341bf322be045fafcf41ed))
+* 修复wujie子应用无法监听error事件 ([#616](https://github.com/Tencent/wujie/issues/616)) ([2f9b65c](https://github.com/Tencent/wujie/commit/2f9b65c795dd6ab87a27d9d46e008e7679979eb5))
+* 修改wujie子应用无监听unhandledrejection问题 ([#617](https://github.com/Tencent/wujie/issues/617)) ([9f53471](https://github.com/Tencent/wujie/commit/9f534718f90b58b6dd5e67de7a176fc2393d2be8))
+* **documentProxyProperties:** add caretPositionFromPoint to document`s proxy methods ([#595](https://github.com/Tencent/wujie/issues/595)) ([8e1b446](https://github.com/Tencent/wujie/commit/8e1b4462715dbc8ead74626dc8ce1237bb7925fc))
+* **iframe:** 修复 handler 为 undefined 时执行 addEventListener 错误 ([#514](https://github.com/Tencent/wujie/issues/514)) ([30bf8c1](https://github.com/Tencent/wujie/commit/30bf8c192636159a405e806722c99645ea34d17b))
+
+### Features
+
+* 修正css时序及重复patch的问题([#568](https://github.com/Tencent/wujie/issues/568)) ([#570](https://github.com/Tencent/wujie/issues/570)) ([f9d222c](https://github.com/Tencent/wujie/commit/f9d222c75ff21d48250a452dde943663f164ab57))
+
+## [1.0.17](https://github.com/Tencent/wujie/compare/v1.0.16...v1.0.17) (2023-05-30)
+
+### Bug Fixes
+
+* 子应用window事件监听增加message事件，增加事件监听target可选参数 ([#555](https://github.com/Tencent/wujie/issues/555)) ([2255301](https://github.com/Tencent/wujie/commit/22553016a782149f259d4385be44eafc21d48fa1)), closes [#549](https://github.com/Tencent/wujie/issues/549)
+
+## [1.0.16](https://github.com/Tencent/wujie/compare/v1.0.15...v1.0.16) (2023-05-17)
+
+### Bug Fixes
+
+* **proxy:** protect the program when querySelectorAll throws an exception ([#547](https://github.com/Tencent/wujie/issues/547)) ([a7f83fc](https://github.com/Tencent/wujie/commit/a7f83fc909cf7ac70cba59590f340e201639fe4e))
+
+## [1.0.14](https://github.com/Tencent/wujie/compare/v1.0.13...v1.0.14) (2023-03-31)
+
+### Bug Fixes
+
+* 修复获取html入口文件时，因为接口异常不能正常触发loadError生命周期 ([#481](https://github.com/Tencent/wujie/issues/481)) ([1b45d30](https://github.com/Tencent/wujie/commit/1b45d3066ef5acbcdd7aa1dcb00d01298ff3a3b8))
+* 修复子应用嵌套页面空白问题 ([#492](https://github.com/Tencent/wujie/issues/492)) ([ff9714f](https://github.com/Tencent/wujie/commit/ff9714fab57b059746765f540a9f37d0db573ab5)), closes [#487](https://github.com/Tencent/wujie/issues/487) [#485](https://github.com/Tencent/wujie/issues/485)
+* **iframe:** 修复 handler 为 undefined 时添加到 handlerCallbackMap 报错 ([#483](https://github.com/Tencent/wujie/issues/483)) ([9b5a7fb](https://github.com/Tencent/wujie/commit/9b5a7fb397bc8d6bc49d4d8ee5b5a4a9c8dbac00))
+* **iframe:** 修复多层嵌套找不到渲染节点问题 ([#491](https://github.com/Tencent/wujie/issues/491)) ([6f54797](https://github.com/Tencent/wujie/commit/6f54797a95920aa21673b66c247e7a2ca672ebb2))
+
+## [1.0.13](https://github.com/Tencent/wujie/compare/v1.0.12...v1.0.13) (2023-03-29)
+
+### Bug Fixes
+
+* 修复降级后页面无法渲染的问题 ([1883f59](https://github.com/Tencent/wujie/commit/1883f59a48e666d0533df852b60454fc0c2a476e))
+* 运行主应用代码主动报错 ([#482](https://github.com/Tencent/wujie/issues/482)) ([8981b7b](https://github.com/Tencent/wujie/commit/8981b7b0168208afd316bc7956f0b79ab54dcd20))
+
+## [1.0.12](https://github.com/Tencent/wujie/compare/v1.0.11...v1.0.12) (2023-03-28)
+
+### Bug Fixes
+
+* 修复属性获取问题导致代码运行报错 ([09419fd](https://github.com/Tencent/wujie/commit/09419fde6f431114c51e61a5d80484162f9a8cb2))
+
+## [1.0.11](https://github.com/Tencent/wujie/compare/v1.0.10...v1.0.11) (2023-03-24)
+
+### Bug Fixes
+
+* 修复appendChild执行顺序的问题 ([#470](https://github.com/Tencent/wujie/issues/470)) ([af054da](https://github.com/Tencent/wujie/commit/af054da4e2431dc9f010db49593ff2b584299419)), closes [#465](https://github.com/Tencent/wujie/issues/465)
+* 修复script脚本属性丢失的问题 ([#472](https://github.com/Tencent/wujie/issues/472)) ([300f4a7](https://github.com/Tencent/wujie/commit/300f4a7317a483364b8a82366243bfd48fdd7754)), closes [#374](https://github.com/Tencent/wujie/issues/374)
+
+## [1.0.10](https://github.com/Tencent/wujie/compare/v1.0.9...v1.0.10) (2023-03-23)
+
+### Bug Fixes
+
+* 修复esm脚本执行顺序问题 ([#469](https://github.com/Tencent/wujie/issues/469)) ([998d16d](https://github.com/Tencent/wujie/commit/998d16dc4c8096bad5ff07a965520bb883cde544))
+
+## [1.0.9](https://github.com/Tencent/wujie/compare/v1.0.8...v1.0.9) (2023-03-23)
+
+### Bug Fixes
+
+* 适配子应用处理script标签 ([#453](https://github.com/Tencent/wujie/issues/453)) ([f7e83b8](https://github.com/Tencent/wujie/commit/f7e83b88b0007143d60374197ec3f9e6d4c3c178))
+* 修复子应用html默认属性 ([#462](https://github.com/Tencent/wujie/issues/462)) ([08e6fd2](https://github.com/Tencent/wujie/commit/08e6fd27b8f5facf4e11bdfdc3426706dca646f9))
+* 修复chrome85以下版本window.window报错问题 ([#444](https://github.com/Tencent/wujie/issues/444)) ([0905c28](https://github.com/Tencent/wujie/commit/0905c284b52368aaef10f97fc501e28e2556ee4b)), closes [#280](https://github.com/Tencent/wujie/issues/280)
+* 修复js执行顺序的问题 ([#468](https://github.com/Tencent/wujie/issues/468)) ([dfc1cd2](https://github.com/Tencent/wujie/commit/dfc1cd237fe8736f37e2f37504bf74808d653676)), closes [#424](https://github.com/Tencent/wujie/issues/424)
+
+## [1.0.8](https://github.com/Tencent/wujie/compare/v1.0.6...v1.0.8) (2023-03-14)
+
+### Bug Fixes
+
+* 修复子应用媒体元素资源路径错误的问题 ([#439](https://github.com/Tencent/wujie/issues/439)) ([68f85a8](https://github.com/Tencent/wujie/commit/68f85a8cc7089367db4f0bdfc4620135540dbd92))
+* iframe的style允许被覆盖 ([#430](https://github.com/Tencent/wujie/issues/430)) ([a7c0bcd](https://github.com/Tencent/wujie/commit/a7c0bcdaa51558a55f2f80a0d85dc56fda7cb2e0))
+* ignore的 link 未正确设置 ([#432](https://github.com/Tencent/wujie/issues/432)) ([ba57da9](https://github.com/Tencent/wujie/commit/ba57da9aee153652372a048bde7974672340d265))
+
+### Features
+
+* 执行hooks托底逻辑 ([#403](https://github.com/Tencent/wujie/issues/403)) ([2d0ba7e](https://github.com/Tencent/wujie/commit/2d0ba7ef9d03dead6bbcf5f24157325bfa878009))
+
+## [1.0.7](https://github.com/Tencent/wujie/compare/v1.0.6...v1.0.7) (2023-03-14)
+
+### Bug Fixes
+
+* 修复子应用媒体元素资源路径错误的问题 ([#439](https://github.com/Tencent/wujie/issues/439)) ([68f85a8](https://github.com/Tencent/wujie/commit/68f85a8cc7089367db4f0bdfc4620135540dbd92))
+* iframe的style允许被覆盖 ([#430](https://github.com/Tencent/wujie/issues/430)) ([a7c0bcd](https://github.com/Tencent/wujie/commit/a7c0bcdaa51558a55f2f80a0d85dc56fda7cb2e0))
+* ignore的 link 未正确设置 ([#432](https://github.com/Tencent/wujie/issues/432)) ([ba57da9](https://github.com/Tencent/wujie/commit/ba57da9aee153652372a048bde7974672340d265))
+
+### Features
+
+* 执行hooks托底逻辑 ([#403](https://github.com/Tencent/wujie/issues/403)) ([2d0ba7e](https://github.com/Tencent/wujie/commit/2d0ba7ef9d03dead6bbcf5f24157325bfa878009))
+
+## [1.0.6](https://github.com/Tencent/wujie/compare/v1.0.5...v1.0.6) (2023-02-08)
+
+### Bug Fixes
+
+* 修复预加载js资源没有下载 ([#363](https://github.com/Tencent/wujie/issues/363)) ([e41c217](https://github.com/Tencent/wujie/commit/e41c2170d7a4fa48ebab59004e1fbcdc41e1fa9a))
+
+## [1.0.5](https://github.com/Tencent/wujie/compare/v1.0.4...v1.0.5) (2023-01-10)
+
+### Features
+
+* 添加patchElementHook钩子 ([#347](https://github.com/Tencent/wujie/issues/347)) ([2a89bdb](https://github.com/Tencent/wujie/commit/2a89bdb728ade8a4ab569b1e06c00dad48756068))
+
+## [1.0.4](https://github.com/Tencent/wujie/compare/v1.0.3...v1.0.4) (2022-12-30)
+
+### Bug Fixes
+
+* 适配domain修改 ([#310](https://github.com/Tencent/wujie/issues/310)) ([ac18816](https://github.com/Tencent/wujie/commit/ac1881632fe6bc8c4b019fd95e0a957a637c37d9))
+* 修复子应用html加载失败后无法重试 ([#339](https://github.com/Tencent/wujie/issues/339)) ([86d93ba](https://github.com/Tencent/wujie/commit/86d93ba3fd3c93a813088face6caf81c1ab94a73))
+
+## [1.0.3](https://github.com/Tencent/wujie/compare/v1.0.2...v1.0.3) (2022-12-12)
+
+### Bug Fixes
+
+* 修复保活模式下路由参数丢失的问题 ([#323](https://github.com/Tencent/wujie/issues/323)) ([ffd2d60](https://github.com/Tencent/wujie/commit/ffd2d60663ca53ccebb326afe53be90f67bdd551))
+* 修复降级场景下文档非标准模式问题 ([#312](https://github.com/Tencent/wujie/issues/312)) ([d21365a](https://github.com/Tencent/wujie/commit/d21365a815e9caa48f736ab63f3de1206e86e0b5)), closes [#302](https://github.com/Tencent/wujie/issues/302)
+
+## [1.0.2](https://github.com/Tencent/wujie/compare/v1.0.1...v1.0.2) (2022-12-06)
+
+### Bug Fixes
+
+* 子应用KeyboardEvent不生效 ([#305](https://github.com/Tencent/wujie/issues/305)) ([a4e1775](https://github.com/Tencent/wujie/commit/a4e17753b6224bd4bff93f21e696251030ab7cc4)), closes [#304](https://github.com/Tencent/wujie/issues/304)
+
+### Features
+
+* 添加子应用可以直接读取html的能力 ([#307](https://github.com/Tencent/wujie/issues/307)) ([f45e57e](https://github.com/Tencent/wujie/commit/f45e57e150b9ecb83ed593331bb7ac03cb848ee2))
+
+## [1.0.1](https://github.com/Tencent/wujie/compare/v1.0.0...v1.0.1) (2022-11-25)
+
+### Bug Fixes
+
+* 兼容主应用拦截原生的createElement ([#275](https://github.com/Tencent/wujie/issues/275)) ([9d657ee](https://github.com/Tencent/wujie/commit/9d657ee98470089071c2e906848c7476105343c9)), closes [#274](https://github.com/Tencent/wujie/issues/274)
+* 修正其他document调用获取元素函数无法获取的问题 ([#263](https://github.com/Tencent/wujie/issues/263)) ([9c7cccd](https://github.com/Tencent/wujie/commit/9c7cccd3f3d63e19fcc335bd855b187bdb2a50c3)), closes [#262](https://github.com/Tencent/wujie/issues/262)
+
+### Features
+
+* 增加degradeAttrs参数用于控制降级时的Iframe属性 ([#272](https://github.com/Tencent/wujie/issues/272)) ([16adfd4](https://github.com/Tencent/wujie/commit/16adfd41c7ec75830f908cd7e4a7ae31fbb1364d)), closes [#271](https://github.com/Tencent/wujie/issues/271)
+
+# [1.0.0](https://github.com/Tencent/wujie/compare/v1.0.0-rc.25...v1.0.0) (2022-11-10)
+
+### Features
+
+* ie11 compatibility ([#248](https://github.com/Tencent/wujie/issues/248)) ([f6fd307](https://github.com/Tencent/wujie/commit/f6fd307c3365801a300ea22050aca1447f81b197)), closes [#185](https://github.com/Tencent/wujie/issues/185) [#185](https://github.com/Tencent/wujie/issues/185)
+
 # [1.0.0-rc.25](https://github.com/Tencent/wujie/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2022-11-01)
 
 ### Bug Fixes

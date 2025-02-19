@@ -28,15 +28,23 @@ export default class WujieReact extends React.PureComponent {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   execStartApp = () => {
     this.startAppQueue = this.startAppQueue.then(this.startApp);
   };
 
-  render() {
+  componentDidMount() {
     this.execStartApp();
+  }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.name !== prevProps.name || this.props.url !== prevProps.url) {
+      this.execStartApp();
+    }
+  }
+
+  render() {
     const { width, height } = this.props;
     const { myRef: ref } = this.state;
     return <div style={{ width, height }} ref={ref} />;
@@ -44,27 +52,27 @@ export default class WujieReact extends React.PureComponent {
 }
 
 const propTypes = {
-    height: PropTypes.string,
-    width: PropTypes.string,
-    name: PropTypes.string,
-    loading: PropTypes.element,
-    url: PropTypes.string,
-    alive: PropTypes.bool,
-    fetch: PropTypes.func,
-    props: PropTypes.object,
-    attrs: PropTypes.object,
-    replace: PropTypes.func,
-    sync: PropTypes.bool,
-    prefix: PropTypes.object,
-    fiber: PropTypes.bool,
-    degrade: PropTypes.bool,
-    plugins: PropTypes.array,
-    beforeLoad: PropTypes.func,
-    beforeMount: PropTypes.func,
-    afterMount: PropTypes.func,
-    beforeUnmount: PropTypes.func,
-    afterUnmount: PropTypes.func,
-    activated: PropTypes.func,
-    deactivated: PropTypes.func,
-    loadError: PropTypes.func,
-  }
+  height: PropTypes.string,
+  width: PropTypes.string,
+  name: PropTypes.string,
+  loading: PropTypes.element,
+  url: PropTypes.string,
+  alive: PropTypes.bool,
+  fetch: PropTypes.func,
+  props: PropTypes.object,
+  attrs: PropTypes.object,
+  replace: PropTypes.func,
+  sync: PropTypes.bool,
+  prefix: PropTypes.object,
+  fiber: PropTypes.bool,
+  degrade: PropTypes.bool,
+  plugins: PropTypes.array,
+  beforeLoad: PropTypes.func,
+  beforeMount: PropTypes.func,
+  afterMount: PropTypes.func,
+  beforeUnmount: PropTypes.func,
+  afterUnmount: PropTypes.func,
+  activated: PropTypes.func,
+  deactivated: PropTypes.func,
+  loadError: PropTypes.func,
+};
