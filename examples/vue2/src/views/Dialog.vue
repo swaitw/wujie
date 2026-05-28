@@ -43,6 +43,8 @@
       <p>
         <AppendBody />
       </p>
+      <h3>5、原生 Popper/Floating 弹出层</h3>
+      <NativePopperDemo context="路由页面" />
     </div>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="760px">
       <div>
@@ -65,6 +67,7 @@
             <el-button slot="reference">el-popover hover（弹窗内）</el-button>
           </el-popover>
         </p>
+        <NativePopperDemo context="el-dialog 弹窗内" :visible="dialogVisible" />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -98,10 +101,12 @@
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
 import AppendBody from "@/components/AppendBody.vue";
+import NativePopperDemo from "@/components/NativePopperDemo.vue";
 export default {
   components: {
     HelloWorld,
     AppendBody,
+    NativePopperDemo,
   },
   data() {
     return {

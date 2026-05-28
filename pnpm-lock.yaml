@@ -546,6 +546,8 @@ importers:
       '@vue/cli-plugin-babel': ~4.5.0
       '@vue/cli-plugin-eslint': ~4.5.0
       '@vue/cli-plugin-router': ~4.5.0
+      '@floating-ui/dom': 0.5.4
+      '@popperjs/core': 2.11.8
       '@vue/cli-service': ~4.5.0
       '@vue/eslint-config-prettier': ^6.0.0
       ant-design-vue: 1.7.8
@@ -553,6 +555,7 @@ importers:
       core-js: ^3.6.5
       element-ui: 2.15.6
       eslint: ^6.7.2
+      popper.js: 1.16.1
       eslint-plugin-prettier: ^3.3.1
       eslint-plugin-vue: ^6.2.2
       prettier: ^2.2.1
@@ -560,9 +563,12 @@ importers:
       vue-router: ^3.2.0
       vue-template-compiler: ^2.6.11
     dependencies:
+      '@floating-ui/dom': 0.5.4
+      '@popperjs/core': 2.11.8
       ant-design-vue: 1.7.8_kszqv4ntea7le2tfdnfsk4vbta
       core-js: 3.41.0
       element-ui: 2.15.6_vue@2.7.16
+      popper.js: 1.16.1
       vue: 2.7.16
       vue-router: 3.6.5_vue@2.7.16
     devDependencies:
@@ -7976,6 +7982,10 @@ packages:
       loader-utils: 2.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@popperjs/core/2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
   /@sxzz/popperjs-es/2.11.7:
@@ -22898,6 +22908,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
+
+  /popper.js/1.16.1:
+    resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
+    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
+    dev: false
 
   /pkg-up/3.1.0:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
