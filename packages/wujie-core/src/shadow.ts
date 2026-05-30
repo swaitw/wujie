@@ -250,11 +250,22 @@ export async function renderTemplateToShadowRoot(
   shadowRoot.head = shadowRoot.querySelector("head");
   shadowRoot.body = shadowRoot.querySelector("body");
 
-  // 修复 html parentNode
-  Object.defineProperty(shadowRoot.firstChild, "parentNode", {
-    enumerable: true,
-    configurable: true,
-    get: () => iframeWindow.document,
+  const shadowHtml = shadowRoot.firstElementChild;
+  Object.defineProperties(shadowHtml, {
+    // 修复 html parentNode
+    parentNode: {
+      enumerable: true,
+      configurable: true,
+      get: () => iframeWindow.document,
+    },
+
+    // 修复 html getBoundingClientRect
+    getBoundingClientRect: {
+      enumerable: true,
+      configurable: true,
+      value: () =>
+        iframeWindow.__WUJIE_RAW_DOCUMENT_QUERY_SELECTOR__.call(iframeWindow.document, "html").getBoundingClientRect(),
+    },
   });
 
   patchRenderEffect(shadowRoot, iframeWindow.__WUJIE.id, false);
