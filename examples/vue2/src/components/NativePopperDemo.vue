@@ -12,7 +12,7 @@
         <div v-show="activeKey === item.key" :ref="`popper-${item.key}`" class="native-popper-demo__popper">
           <strong>{{ item.title }}</strong>
           <span>{{ context }}</span>
-          <small>placement: top / appendTo: body</small>
+          <small>placement: top / appendTo: body / gpu transform</small>
           <div class="native-popper-demo__arrow" data-popper-arrow></div>
         </div>
       </div>
@@ -115,6 +115,7 @@ export default {
       if (key === "popper1") {
         return new PopperV1(referenceEl, popperEl, {
           placement: "top",
+          gpuAcceleration: true,
           modifiers: {
             offset: {
               offset: "0, 8",
@@ -147,6 +148,12 @@ export default {
                 padding: 8,
               },
             },
+            {
+              name: "computeStyles",
+              options: {
+                gpuAcceleration: true,
+              },
+            },
           ],
         });
       }
@@ -162,8 +169,10 @@ export default {
         }).then(({ x, y, strategy }) => {
           Object.assign(popperEl.style, {
             position: strategy,
-            left: `${x}px`,
-            top: `${y}px`,
+            left: "0",
+            top: "0",
+            transform: `translate3d(${x}px, ${y}px, 0)`,
+            willChange: "transform",
           });
         });
       };
