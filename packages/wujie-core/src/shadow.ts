@@ -250,7 +250,7 @@ export async function renderTemplateToShadowRoot(
   shadowRoot.head = shadowRoot.querySelector("head");
   shadowRoot.body = shadowRoot.querySelector("body");
 
-  const shadowHtml = shadowRoot.firstElementChild;
+  const shadowHtml = shadowRoot.firstElementChild as HTMLElement;
   Object.defineProperties(shadowHtml, {
     // 修复 html parentNode
     parentNode: {
