@@ -10,6 +10,8 @@ yarn.lock
 coverage
 .history
 .npmrc
+.cursor
+.codegraph
 
 # Log files
 .pnpm-debug.log*
