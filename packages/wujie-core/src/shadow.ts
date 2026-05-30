@@ -264,7 +264,7 @@ export async function renderTemplateToShadowRoot(
       enumerable: true,
       configurable: true,
       value: () =>
-        iframeWindow.__WUJIE_RAW_DOCUMENT_QUERY_SELECTOR__.call(iframeWindow.document, "html").getBoundingClientRect(),
+        iframeWindow.__WUJIE_RAW_DOCUMENT_QUERY_SELECTOR__.call(iframeWindow.document, "html")!.getBoundingClientRect(),
     },
   });
 
