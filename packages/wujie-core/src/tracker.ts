@@ -6,7 +6,7 @@
  * sandbox.destroy() 时反向清理，handler 闭包会持有 iframeWindow，整个子应用
  * 上下文都无法被 GC，且主 window 上会留下 dangling handler。
  *
- * 跟踪器实例挂在每个 Wujie 沙箱上，在 sandbox.destroy() 末尾统一 cleanupAll()。
+ * 跟踪器实例挂在每个 Wujie 沙箱上，在 sandbox.destroy() 末尾统一清理。
  */
 
 export type DocumentListenerEntry = {
@@ -26,7 +26,7 @@ export type WindowOnEventOriginal = {
 export class EventCleanupTracker {
   /** 已经从 patchDocumentEffect 转发到主应用 window.document 的 listener */
   private readonly mainDocumentListeners: Set<DocumentListenerEntry> = new Set();
-  /** 已被 patchWindowEffect 改写过的主应用 window onXXX，记录原始描述符以便还原 */
+  /** 已被 patchWindowEffect 改写过的主应用 window onXXX，记录原始状态以便还原 */
   private readonly windowOnEventOverrides: Map<string, WindowOnEventOriginal> = new Map();
 
   trackMainDocumentListener(entry: DocumentListenerEntry): void {
@@ -43,14 +43,24 @@ export class EventCleanupTracker {
     }
   }
 
+  /** 清理主应用 window.document 上的 listener */
+  cleanupMainDocumentListeners(targetDocument: Document = window.document): void {
+    this.mainDocumentListeners.forEach(({ type, callback, options }) => {
+      try {
+        targetDocument.removeEventListener(type, callback, options as any);
+      } catch (_) {
+        /* noop: destroy 阶段任何异常都不应中断后续清理 */
+      }
+    });
+    this.mainDocumentListeners.clear();
+  }
+
   /**
-   * 记录某个 window onXXX 的原始值，供 destroy 时还原。
-   * 同一 key 仅首次记录，避免后续覆盖把脏值当原始值。
+   * 记录主应用 window.onXXX 被子应用覆盖前的状态，供 destroy 时还原。
+   * 同一 key 仅首次记录，避免把子应用后续写入的 handler 当作原值。
    *
-   * 注意：onresize/onclick 这类标准事件属性在浏览器/jsdom 中通常是 Window.prototype 上的
-   * accessor descriptor（getter/setter），还原时不能 defineProperty 还原 descriptor 本身
-   * （那只是重新装上同一个 accessor，不会清除内部存储的 handler），必须直接赋值让 setter
-   * 重新写入存储，从而真正释放 dangling handler 引用。
+   * 一些 onXXX 属性由 accessor 管理，cleanup 时需要通过赋值写回 originalValue，
+   * 让 setter 清掉内部保存的 handler；如果赋值新增了 own property，再按需 delete。
    */
   trackWindowOnEvent(key: string, originalValue: any, hadOwnProperty: boolean): void {
     if (!this.windowOnEventOverrides.has(key)) {
@@ -58,16 +68,8 @@ export class EventCleanupTracker {
     }
   }
 
-  cleanupAll(targetWindow: Window = window): void {
-    this.mainDocumentListeners.forEach(({ type, callback, options }) => {
-      try {
-        targetWindow.document.removeEventListener(type, callback, options as any);
-      } catch (_) {
-        /* noop: destroy 阶段任何异常都不应中断后续清理 */
-      }
-    });
-    this.mainDocumentListeners.clear();
-
+  /** 清理主应用 window 上的 onXXX */
+  cleanupWindowOnEventOverrides(targetWindow: Window = window): void {
     this.windowOnEventOverrides.forEach(({ key, originalValue, hadOwnProperty }) => {
       try {
         // 直接赋值：对 prototype accessor 而言会调用 setter 把内部存储覆盖回原值；
@@ -87,5 +89,10 @@ export class EventCleanupTracker {
       }
     });
     this.windowOnEventOverrides.clear();
+  }
+
+  cleanupAll(targetWindow: Window = window): void {
+    this.cleanupMainDocumentListeners(targetWindow.document);
+    this.cleanupWindowOnEventOverrides(targetWindow);
   }
 }

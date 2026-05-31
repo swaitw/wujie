@@ -29,7 +29,7 @@ import {
   rawDocumentQuerySelector,
 } from "./common";
 import { EventBus, appEventObjMap, EventObj } from "./event";
-import { EventCleanupTracker } from "./effect-cleanup";
+import { EventCleanupTracker } from "./tracker";
 import { isFunction, wujieSupport, appRouteParse, requestIdleCallback, getAbsolutePath, eventTrigger } from "./utils";
 import { WUJIE_DATA_ATTACH_CSS_FLAG } from "./constant";
 import { plugin, ScriptObjectLoader, loadErrorHandler } from "./index";
