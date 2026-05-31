@@ -39,8 +39,9 @@ declare global {
 
 if (window.__POWERED_BY_WUJIE__) {
   let instance: any;
+  let router: any;
   window.__WUJIE_MOUNT = () => {
-    const router = createRouter({ history: createWebHistory(basename), routes });
+    router = createRouter({ history: createWebHistory(basename), routes });
     instance = createApp(App)
       .use(Tag)
       .use(Button)
@@ -55,7 +56,12 @@ if (window.__POWERED_BY_WUJIE__) {
     instance.mount("#app");
   };
   window.__WUJIE_UNMOUNT = () => {
-    instance.unmount();
+    instance?.unmount();
+    router?.options?.history?.destroy?.();
+    window.__VUE_DEVTOOLS_PLUGINS__ = [];
+    window.__VUE_INSTANCE_SETTERS__ = [];
+    instance = null;
+    router = null;
   };
   // module脚本异步加载，应用主动调用生命周期
   window.__WUJIE.mount();

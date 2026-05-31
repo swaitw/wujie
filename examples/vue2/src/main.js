@@ -40,12 +40,18 @@ Vue.config.productionTip = false;
 
 if (window.__POWERED_BY_WUJIE__) {
   let instance;
+  let router;
   window.__WUJIE_MOUNT = () => {
-    const router = new VueRouter({ base, routes });
+    router = new VueRouter({ base, routes });
     instance = new Vue({ router, render: (h) => h(App) }).$mount("#app");
   };
   window.__WUJIE_UNMOUNT = () => {
     instance.$destroy();
+    router?.options?.history?.destroy?.();
+    window.__VUE_DEVTOOLS_PLUGINS__ = [];
+    window.__VUE_INSTANCE_SETTERS__ = [];
+    instance = null;
+    router = null;
   };
 } else {
   new Vue({ router: new VueRouter({ base, routes }), render: (h) => h(App) }).$mount("#app");
