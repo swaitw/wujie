@@ -12,7 +12,7 @@
 export {};
 
 import { patchDocumentEffect } from "../../src/iframe";
-import { EventCleanupTracker } from "../../src/effect-cleanup";
+import { EventCleanupTracker } from "../../src/tracker";
 
 function createSandboxStub(id: string) {
   return {

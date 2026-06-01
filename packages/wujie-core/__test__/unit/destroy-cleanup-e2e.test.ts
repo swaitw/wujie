@@ -15,7 +15,7 @@ jest.mock("../../src/utils", () => {
 });
 
 const { patchDocumentEffect, patchWindowEffect } = require("../../src/iframe");
-const { EventCleanupTracker } = require("../../src/effect-cleanup");
+const { EventCleanupTracker } = require("../../src/tracker");
 
 function createSandboxStub(id: string) {
   return {

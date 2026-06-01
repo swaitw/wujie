@@ -15,7 +15,7 @@ jest.mock("../../src/utils", () => {
   return { ...actual, warn: realWarnDestroy };
 });
 
-const { EventCleanupTracker } = require("../../src/effect-cleanup");
+const { EventCleanupTracker } = require("../../src/tracker");
 
 describe("EventCleanupTracker 主应用 window.document 上的 listener 反向解绑", () => {
   test("trackMainDocumentListener + cleanupAll 应能反向解绑主 document 上的 listener", () => {
