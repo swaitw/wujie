@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "极致的微前端框架",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider lerna run start --parallel",
     "doc": "lerna run docs:dev",
