@@ -12,6 +12,7 @@ coverage
 .npmrc
 .cursor
 .codegraph
+.worktree
 
 # Log files
 .pnpm-debug.log*
