@@ -3,6 +3,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+package_dirs=(
+  "packages/wujie-core"
+  "packages/wujie-vue2"
+  "packages/wujie-vue3"
+  "packages/wujie-react"
+)
 
 scripts=(
   "local-angular12-build.sh"
@@ -33,6 +41,18 @@ run_build() {
   printf '[%s] starting %s\n' "$name" "$script"
   bash "$SCRIPT_DIR/$script" 2>&1 | sed "s/^/[$name] /"
 }
+
+run_package_prepack() {
+  local package_dir="$1"
+  local name="${package_dir#packages/}"
+
+  printf '[packages] prepacking %s\n' "$name"
+  pnpm --dir "$ROOT_DIR/$package_dir" run prepack
+}
+
+for package_dir in "${package_dirs[@]}"; do
+  run_package_prepack "$package_dir"
+done
 
 trap cleanup INT TERM
 
