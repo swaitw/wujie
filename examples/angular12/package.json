@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --deploy-url='/demo-angular12/'",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && ng build --deploy-url='/demo-angular12/'",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

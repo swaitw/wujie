@@ -34,6 +34,10 @@ declare global {
     __WUJIE_UNMOUNT: () => void | Promise<void>;
     // 子应用无界实例
     __WUJIE: { mount: () => void };
+    // vue devtools plugins
+    __VUE_DEVTOOLS_PLUGINS__: any[];
+    // vue instance setters
+    __VUE_INSTANCE_SETTERS__: any[];
   }
 }
 
