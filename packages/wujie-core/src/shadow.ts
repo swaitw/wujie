@@ -20,7 +20,7 @@ import Wujie from "./sandbox";
 import { patchElementEffect } from "./iframe";
 import { patchRenderEffect } from "./effect";
 import { getCssLoader, getPresetLoaders } from "./plugin";
-import { getAbsolutePath, getContainer, getCurUrl, setAttrsToElement } from "./utils";
+import { getAbsolutePath, getContainer, getCurUrl, isFunction, setAttrsToElement } from "./utils";
 
 const cssSelectorMap = {
   ":root": ":host",
@@ -34,15 +34,20 @@ declare global {
 }
 
 /**
- * 处理 wujie-app webComponent disconnect 时的销毁策略。
+ * 处理 wujie-app webComponent disconnect 时的销毁策略，按运行模式自动决定 destroy / unmount：
  *
- * 默认 disconnect 仅调 unmount，sandbox 与 iframe 都保留以便快速复用。
- * 业务在 setupApp / startApp 中传 `destroyOnUnmount: true` 时，disconnect 直接
- * 整体 destroy，适用于「路由切换 = 一次性使用」、不希望 sandbox 长期驻留的场景。
+ * - 保活模式（alive）：仅 unmount，保留 sandbox / iframe，再次进入直接 active 复用。
+ * - 单例模式（非保活但做了生命周期改造，存在 __WUJIE_MOUNT）：仅 unmount，sandbox 复用，
+ *   再次进入走 startApp 的 unmount → active → mount 时序。
+ * - 重建模式（非保活且未做生命周期改造）：sandbox 不会被复用，且 unmount 对其而言基本是空操作
+ *   （没有 mountFlag / __WUJIE_UNMOUNT），若仅 unmount 会导致 sandbox / iframe 长期驻留累积，
+ *   故直接 destroy。
  */
 export function handleWujieAppDisconnect(sandbox: Wujie | null | undefined): void {
   if (!sandbox) return;
-  if (sandbox.destroyOnUnmount) {
+  const iframeWindow = sandbox.iframe?.contentWindow;
+  const isRebuildMode = !sandbox.alive && !isFunction(iframeWindow?.__WUJIE_MOUNT);
+  if (isRebuildMode) {
     sandbox.destroy();
   } else {
     sandbox.unmount();

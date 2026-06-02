@@ -399,11 +399,15 @@ public async unmount(): Promise<void> {
 
 测试结果：9 suites / 50 tests，全部 GREEN。
 
-### ✅ 批 D · 根治路由切换型场景：destroyOnUnmount
+### ✅ 批 D · 根治路由切换型场景：disconnect 按运行模式自动判定 destroy / unmount
+
+> 早期方案曾引入 `destroyOnUnmount` 配置，让业务在 `setupApp/startApp` 显式传 `true` 才在 disconnect 时 destroy。但「重建模式本就该销毁」这件事属于框架职责，不应外包给业务配置；已废弃该配置，改为按运行模式自动判定。
 
 | 项 | 测试 | 修复点 | 修复前 | 修复后 |
 |---|---|---|---|---|
-| §1.1 disconnect 仅 unmount 累积 sandbox | `__test__/unit/destroyOnUnmount.test.ts` (5 cases) | `src/sandbox.ts`、`src/shadow.ts`、`src/index.ts`、`src/utils.ts`、`packages/wujie-vue2,3/index.js`、`packages/wujie-react/index.js,.d.ts` | wujie-app webcomponent 默认仅 `unmount`，sandbox / iframe / iframeWindow 全保留；用户对「路由切换 = 一次性使用」的场景没有任何关闭机关，#890 累积 | 1) `Wujie` 增加 `destroyOnUnmount: boolean` 字段；2) shadow.ts 抽出 `handleWujieAppDisconnect()` helper（独立可测），按字段决定 `destroy()` vs `unmount()`；3) `WujieApp.disconnectedCallback` 调用上述 helper；4) `setupApp/startApp/preloadApp` + `mergeOptions` 透传 `destroyOnUnmount`；5) `WujieVue/WujieVue3/WujieReact` props 透传，类型声明同步 |
+| §1.1 disconnect 仅 unmount 累积 sandbox | `__test__/unit/handleWujieAppDisconnect.test.ts` (5 cases) | `src/shadow.ts` | wujie-app webcomponent 的 `disconnectedCallback` 无论何种模式都只 `unmount`；对**重建模式**（非保活、未做生命周期改造）而言 `unmount()` 因没有 `mountFlag` / `__WUJIE_UNMOUNT` 基本是空操作，sandbox / iframe / iframeWindow 一直驻留累积（#890） | `shadow.ts` 抽出独立可测的 `handleWujieAppDisconnect(sandbox)` helper，按运行模式自动判定（与 `startApp` 复用分支同一信号）：① 保活（`alive`）→ `unmount`；② 单例（非保活 + 存在 `__WUJIE_MOUNT`，做了生命周期改造）→ `unmount`；③ 重建（非保活 + 无 `__WUJIE_MOUNT`）→ 直接 `destroy`。`WujieApp.disconnectedCallback` 调用该 helper，无需任何业务配置 |
+
+> 注：该批一度涉及 `src/sandbox.ts`、`src/index.ts`、`src/utils.ts`、`packages/wujie-vue2,3/index.js`、`packages/wujie-react/index.js,.d.ts` 透传 `destroyOnUnmount`；废弃配置后这些透传已全部回收，最终落点只剩 `src/shadow.ts` 一处。
 
 测试结果：10 suites / 55 tests，全部 GREEN。
 
@@ -425,7 +429,7 @@ public async unmount(): Promise<void> {
 
 | 维度 | 批 A | 批 B | 批 C | 批 D | 批 E | 累计 |
 |---|---|---|---|---|---|---|
-| 修复 src 文件数 | 3 | 4 | 4 | 6 | 2 | 11 (去重) |
+| 修复 src 文件数 | 3 | 4 | 4 | 1 | 2 | 9 (去重) |
 | 新增 unit 测试文件 | 2 | 2 | 3 | 1 | 2 | 10 |
 | 新增 unit 用例数 | +6 | +9 | +13 | +5 | +7 | +40 |
 | 总用例数（22 → 62） | 28 | 37 | 50 | 55 | 62 | 62/62 GREEN |

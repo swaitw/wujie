@@ -120,11 +120,6 @@ type baseOptions = {
   iframeAddEventListeners?: Array<string>;
   /** 子应用iframe on事件 */
   iframeOnEvents?: Array<string>;
-  /**
-   * wujie-app webcomponent disconnect 时直接 destroy 沙箱（默认 false 仅 unmount）。
-   * 用于「路由切换 = 一次性使用」的场景，避免 sandbox / iframe 长期驻留。
-   */
-  destroyOnUnmount?: boolean;
   /** 子应用生命周期 */
   beforeLoad?: lifecycle;
   beforeMount?: lifecycle;
@@ -219,13 +214,11 @@ export async function startApp(startOptions: startOptions): Promise<Function | v
     lifecycles,
     iframeAddEventListeners,
     iframeOnEvents,
-    destroyOnUnmount,
   } = options;
   // 已经初始化过的应用，快速渲染
   if (sandbox) {
     sandbox.plugins = getPlugins(plugins);
     sandbox.lifecycles = lifecycles;
-    if (destroyOnUnmount !== undefined) sandbox.destroyOnUnmount = destroyOnUnmount;
     const iframeWindow = sandbox.iframe.contentWindow;
     if (sandbox.preload) {
       await sandbox.preload;
@@ -284,7 +277,6 @@ export async function startApp(startOptions: startOptions): Promise<Function | v
     lifecycles,
     iframeAddEventListeners,
     iframeOnEvents,
-    destroyOnUnmount,
   });
   newSandbox.lifecycles?.beforeLoad?.(newSandbox.iframe.contentWindow);
   const { template, getExternalScripts, getExternalStyleSheets } = await importHTML({
@@ -335,7 +327,6 @@ export function preloadApp(preOptions: preOptions): void {
       lifecycles,
       iframeAddEventListeners,
       iframeOnEvents,
-      destroyOnUnmount,
     } = options;
 
     const sandbox = new WuJie({
@@ -349,7 +340,6 @@ export function preloadApp(preOptions: preOptions): void {
       lifecycles,
       iframeAddEventListeners,
       iframeOnEvents,
-      destroyOnUnmount,
     });
     if (sandbox.preload) return sandbox.preload;
     const runPreload = async () => {

@@ -95,7 +95,8 @@ setupApp({
   url: hostMap("//localhost:7300/"),
   attrs,
   exec: true,
-  alive: true,
+  destroyOnUnmount: true,
+  // alive: true,
   plugins: [{ cssExcludes: ["https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"] }],
   props,
   // 引入了的第三方样式不需要添加credentials
