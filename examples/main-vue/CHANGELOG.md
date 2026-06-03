@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/Tencent/wujie/compare/v2.0.0...v2.0.1) (2026-06-03)
+
+### Bug Fixes
+
+* **core:** 富文本编辑器跨 realm 与降级模式兼容 ([#1084](https://github.com/Tencent/wujie/issues/1084)) ([c9c36de](https://github.com/Tencent/wujie/commit/c9c36decfb72c35e5f028a4769e56da9a2417709))
+
 ## [1.0.29](https://github.com/Tencent/wujie/compare/v1.0.28...v1.0.29) (2025-07-20)
 
 **Note:** Version bump only for package main-vue
