@@ -1,5 +1,9 @@
 {
-  "packages": ["packages/*", "examples/*", "docs"],
+  "packages": [
+    "packages/*",
+    "examples/*",
+    "docs"
+  ],
   "npmClient": "pnpm",
   "command": {
     "version": {
@@ -9,8 +13,11 @@
       "commitHooks": false
     },
     "bootstrap": {
-      "npmClientArgs": ["--no-package-lock", "--legacy-peer-deps"]
+      "npmClientArgs": [
+        "--no-package-lock",
+        "--legacy-peer-deps"
+      ]
     }
   },
-  "version": "2.0.2"
+  "version": "2.1.0"
 }
