@@ -5,7 +5,8 @@
     "version": {
       "allowBranch": "master",
       "conventionalCommits": true,
-      "syncWorkspaceLock": true
+      "syncWorkspaceLock": true,
+      "commitHooks": false
     },
     "bootstrap": {
       "npmClientArgs": ["--no-package-lock", "--legacy-peer-deps"]
