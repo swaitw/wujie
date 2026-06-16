@@ -64,6 +64,8 @@ export default class WujieReact extends React.PureComponent {
   refresh = async () => {
     if (this.isUnmounted) return;
     await destroyApp(this.props.name);
+    clearStartAppQueue(this.props.name, this.startAppQueue);
+    this.startAppQueue = Promise.resolve();
     this.execStartApp();
     return this.startAppQueue;
   };

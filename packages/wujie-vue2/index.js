@@ -128,6 +128,8 @@ const wujieVueOptions = {
     async refresh() {
       if (this.isUnmounted) return;
       await destroyApp(this.name);
+      clearStartAppQueue(this.name, this.startAppQueue);
+      this.startAppQueue = Promise.resolve();
       this.execStartApp();
       return this.startAppQueue;
     },
